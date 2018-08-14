@@ -119,7 +119,7 @@ cdef class LM:
     #     -> logprob_strings("brown", ["quick", "the"])
     def logprob_strings(self, word, context):
         word_i = self.vocab.intern(word)
-        context_i = map(self.vocab.intern, context)
+        context_i = list(map(self.vocab.intern, context))
         return self.logprob(word_i, context_i)
         
     # Like above, but takes interned words.
@@ -138,9 +138,9 @@ cdef class LM:
     # log-probability of a sentence starting with that:
     #   logP(The | <s>) + logP(man | <s> The) + logP(who | <s> The man)
     def total_logprob_strings(self, ngram):
-        ngram_i = map(self.vocab.intern, ngram)
+        ngram_i = list(map(self.vocab.intern, ngram))
         ngram_i.reverse()
-        ngram_i.append(self.vocab.intern("<s>"))
+        ngram_i.append(self.vocab.intern(b"<s>"))
         lp = 0
         for 0 <= i < len(ngram_i) - 1:
             lp = lp + self.logprob(ngram_i[i], ngram_i[i + 1:])

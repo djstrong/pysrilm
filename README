@@ -1,3 +1,6 @@
+Compatible with Python 3, but strings need to be sent as bytes (encoded), e.g. b"quick" or "quick".encode('utf-8').
+
+
 This is an extremely simple Python wrapper for SRILM:
   http://www.speech.sri.com/projects/srilm/
 
